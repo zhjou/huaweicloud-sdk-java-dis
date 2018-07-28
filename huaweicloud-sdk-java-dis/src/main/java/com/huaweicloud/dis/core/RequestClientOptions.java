@@ -16,7 +16,6 @@
 
 package com.huaweicloud.dis.core;
 
-import org.apache.http.annotation.NotThreadSafe;
 
 import java.util.EnumMap;
 
@@ -24,7 +23,7 @@ import java.util.EnumMap;
  * Client request options such as client markers for individual
  * {@link WebServiceRequest}s.
  */
-@NotThreadSafe
+
 public final class RequestClientOptions {
     /**
      * Default maximum buffer size: 128K + 1. Used to enable mark-and-reset for
