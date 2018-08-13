@@ -19,11 +19,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class DISAdvancedAsyncClientTest
 {
+    private static final int  NUM = 20;
     private String[] getCursors(DISAdvancedAsyncClient disAdvancedAsyncClient)
     {
-        CountDownLatch cd = new CountDownLatch(8);
-        String[] cursors = new String[8];
-        for(int i=0;i<8;i++)
+        CountDownLatch cd = new CountDownLatch(NUM);
+        String[] cursors = new String[NUM];
+        for(int i=0;i<NUM;i++)
         {
             GetPartitionCursorRequest getPartitionCursorRequest = new GetPartitionCursorRequest();
             getPartitionCursorRequest.setStartingSequenceNumber(String.valueOf(0));
@@ -85,7 +86,7 @@ public class DISAdvancedAsyncClientTest
                 cursors = getCursors(disAdvancedAsyncClient);
                 cursorsTime = System.currentTimeMillis();
             }
-            if(System.currentTimeMillis() - pre > 5000)
+            if(System.currentTimeMillis() - pre > 1000)
             {
                 System.out.println("output rate " + complete.get()/5.0);
                 if(complete.get() > 0)
