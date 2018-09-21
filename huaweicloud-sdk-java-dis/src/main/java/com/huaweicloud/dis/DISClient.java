@@ -27,8 +27,10 @@ import com.huaweicloud.dis.exception.DISClientException;
 import com.huaweicloud.dis.iface.api.protobuf.ProtobufUtils;
 import com.huaweicloud.dis.iface.app.request.CreateAppRequest;
 import com.huaweicloud.dis.iface.app.request.ListAppsRequest;
+import com.huaweicloud.dis.iface.app.request.ListStreamConsumingStateRequest;
 import com.huaweicloud.dis.iface.app.response.DescribeAppResult;
 import com.huaweicloud.dis.iface.app.response.ListAppsResult;
+import com.huaweicloud.dis.iface.app.response.ListStreamConsumingStateResult;
 import com.huaweicloud.dis.iface.data.request.*;
 import com.huaweicloud.dis.iface.data.response.*;
 import com.huaweicloud.dis.iface.stream.request.*;
@@ -849,7 +851,46 @@ public class DISClient implements DIS
         setEndpoint(request, disConfig.getEndpoint());
         return request(getCheckpointRequest, request, GetCheckpointResult.class);
     }
-    
+
+
+    public DeleteCheckpointResult deleteCheckpoint(DeleteCheckpointRequest deleteCheckpointRequest)
+    {
+        return innerDeleteCheckpoint(deleteCheckpointRequest);
+    }
+
+    protected final DeleteCheckpointResult innerDeleteCheckpoint(DeleteCheckpointRequest deleteCheckpointRequest)
+    {
+        Request<HttpRequest> request = new DefaultRequest<>(Constants.SERVICENAME);
+        request.setHttpMethod(HttpMethodName.DELETE);
+
+        final String resourcePath = ResourcePathBuilder.standard()
+                .withProjectId(disConfig.getProjectId())
+                .withResource(new CheckPointResource(null))
+                .build();
+        request.setResourcePath(resourcePath);
+        setEndpoint(request, disConfig.getEndpoint());
+        return request(deleteCheckpointRequest, request, DeleteCheckpointResult.class);
+    }
+
+    @Override
+    public ListStreamConsumingStateResult listStreamConsumingState(ListStreamConsumingStateRequest listStreamConsumingStateRequest) {
+        return innerListStreamConsumingState(listStreamConsumingStateRequest);
+    }
+
+    protected ListStreamConsumingStateResult innerListStreamConsumingState(ListStreamConsumingStateRequest listStreamConsumingStateRequest) {
+        Request<HttpRequest> request = new DefaultRequest<>(Constants.SERVICENAME);
+        request.setHttpMethod(HttpMethodName.GET);
+
+        final String resourcePath = ResourcePathBuilder.standard()
+                .withProjectId(disConfig.getProjectId())
+                .withResource(new AppsResource(listStreamConsumingStateRequest.getAppName()))
+                .withResource(new StreamResource(listStreamConsumingStateRequest.getStreamName()))
+                .build();
+        request.setResourcePath(resourcePath);
+        setEndpoint(request, disConfig.getManagerEndpoint());
+        return request(null, request, ListStreamConsumingStateResult.class);
+    }
+
     /**
      * 开放认证修改接口，用户自定义实现ICredentialsProvider，更新认证信息
      */

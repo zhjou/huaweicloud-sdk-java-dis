@@ -19,8 +19,10 @@ package com.huaweicloud.dis;
 import com.huaweicloud.dis.core.handler.AsyncHandler;
 import com.huaweicloud.dis.core.util.StringUtils;
 import com.huaweicloud.dis.iface.app.request.ListAppsRequest;
+import com.huaweicloud.dis.iface.app.request.ListStreamConsumingStateRequest;
 import com.huaweicloud.dis.iface.app.response.DescribeAppResult;
 import com.huaweicloud.dis.iface.app.response.ListAppsResult;
+import com.huaweicloud.dis.iface.app.response.ListStreamConsumingStateResult;
 import com.huaweicloud.dis.iface.data.request.*;
 import com.huaweicloud.dis.iface.data.response.*;
 import com.huaweicloud.dis.iface.stream.request.DescribeStreamRequest;
@@ -176,7 +178,39 @@ public class DISClientAsync extends DISClient implements DISAsync
             }
         });
     }
-    
+
+    @Override
+    public Future<DeleteCheckpointResult> deleteCheckpointAsync(DeleteCheckpointRequest deleteCheckpointRequest) {
+        return deleteCheckpointAsync(deleteCheckpointRequest,null);
+    }
+
+    @Override
+    public Future<DeleteCheckpointResult> deleteCheckpointAsync(DeleteCheckpointRequest deleteCheckpointRequest, AsyncHandler<DeleteCheckpointResult> asyncHandler) {
+        return submit(deleteCheckpointRequest, asyncHandler, new InnerExecutor<DeleteCheckpointRequest, DeleteCheckpointResult>()
+        {
+            public DeleteCheckpointResult innerExecute(DeleteCheckpointRequest deleteCheckpointRequest)
+            {
+                return innerDeleteCheckpoint(deleteCheckpointRequest);
+            }
+        });
+    }
+
+    @Override
+    public Future<ListStreamConsumingStateResult> ListStreamConsumingStateAsync(ListStreamConsumingStateRequest listStreamConsumingStateRequest) {
+        return ListStreamConsumingStateAsync(listStreamConsumingStateRequest,null);
+    }
+
+    @Override
+    public Future<ListStreamConsumingStateResult> ListStreamConsumingStateAsync(ListStreamConsumingStateRequest listStreamConsumingStateRequest, AsyncHandler<ListStreamConsumingStateResult> asyncHandler) {
+        return submit(listStreamConsumingStateRequest, asyncHandler, new InnerExecutor<ListStreamConsumingStateRequest, ListStreamConsumingStateResult>()
+        {
+            public ListStreamConsumingStateResult innerExecute(ListStreamConsumingStateRequest listStreamConsumingStateRequest)
+            {
+                return innerListStreamConsumingState(listStreamConsumingStateRequest);
+            }
+        });
+    }
+
     @Override
     public Future<Void> createAppAsync(String appName)
     {
